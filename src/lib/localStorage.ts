@@ -3,6 +3,7 @@ const gameStateKey = 'gameState'
 type StoredGameState = {
   guesses: string[]
   solution: string
+  index: number
 }
 
 export const saveGameStateToLocalStorage = (gameState: StoredGameState) => {

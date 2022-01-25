@@ -1,5 +1,8 @@
 import { WORDS } from '../constants/wordlist'
 import { VALIDGUESSES } from '../constants/validGuesses'
+import {
+  loadGameStateFromLocalStorage,
+} from './localStorage'
 
 export const isWordInWordList = (word: string) => {
   return (
@@ -12,12 +15,24 @@ export const isWinningWord = (word: string) => {
   return solution === word
 }
 
+const happy = WORDS.indexOf('happy');
+const birth = WORDS.indexOf('birth');
+const month = WORDS.indexOf('month');
+
 export const getWordOfDay = () => {
-  // January 1, 2022 Game Epoch
-  const epochMs = 1641013200000
-  const now = Date.now()
-  const msInDay = 86400000
-  const index = Math.floor((now - epochMs) / msInDay)
+  let state = loadGameStateFromLocalStorage();
+  let index = happy;
+  switch (state && state.index) {
+    case 1:
+      index = birth;
+      break;
+    case 2:
+      index = month;
+      break;
+    default:
+      index = happy;
+      break;
+  }
 
   return {
     solution: WORDS[index].toUpperCase(),
